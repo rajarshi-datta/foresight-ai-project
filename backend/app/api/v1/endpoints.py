@@ -4,11 +4,11 @@ from sqlalchemy.orm import Session
 from datetime import timedelta
 import yfinance as yf
 from typing import List
-from ...core import sentiment_analysis
+
 # --- Local Imports ---
 from ... import schemas, crud, security, models
 from ...database import get_db
-from ...core import forecasting, suggestion_engine, market_data
+from ...core import forecasting, suggestion_engine, market_data, sentiment_analysis
 
 router = APIRouter()
 
@@ -82,7 +82,7 @@ def remove_from_watchlist(ticker: str, db: Session = Depends(get_db), current_us
         raise HTTPException(status_code=404, detail="Item not found in watchlist")
     return {"message": "Successfully removed from watchlist"}
 
-# === STOCKS & REPORTS ENDPOINTS ===
+# === STOCKS, REPORTS & SENTIMENT ENDPOINTS ===
 
 @router.get("/stocks/forecast/{ticker}", response_model=schemas.ForecastResponse, tags=["Stocks"])
 def get_forecast(ticker: str, horizon: int = 5, current_user: models.User = Depends(security.get_current_user)):
@@ -122,11 +122,9 @@ def get_reports(db: Session = Depends(get_db), current_user: models.User = Depen
                 "current_price": current_price, "performance_percent": performance
             })
     return {"history": report_items}
+
 @router.get("/stocks/sentiment/{ticker}", response_model=schemas.SentimentResponse, tags=["Stocks"])
 def get_sentiment_for_ticker(ticker: str, current_user: models.User = Depends(security.get_current_user)):
-    """
-    Gets the latest news sentiment for a given stock ticker.
-    """
     sentiment_data = sentiment_analysis.get_news_sentiment(ticker)
     if "error" in sentiment_data:
         raise HTTPException(status_code=500, detail=f"Could not process sentiment for {ticker}")

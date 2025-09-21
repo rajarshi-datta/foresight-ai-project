@@ -3,9 +3,6 @@ from .database import engine, Base
 from .api.v1.endpoints import router as api_v1_router
 from fastapi.middleware.cors import CORSMiddleware
 
-# This should be the ONLY place this line exists in your project
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(title="Foresight AI")
 
 # Add CORS middleware
@@ -20,6 +17,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Run table creation once at startup
+@app.on_event("startup")
+def startup_event():
+    print("Creating database tables...")
+    Base.metadata.create_all(bind=engine)
 
 # Include the API router
 app.include_router(api_v1_router, prefix="/api/v1")
