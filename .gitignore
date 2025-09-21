@@ -1,0 +1,16 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Database
+market_maven.db
+
+# Frontend
+frontend/node_modules/
+frontend/build/
+frontend/.env
+
+# IDE / OS files
+.vscode/
+.DS_Store

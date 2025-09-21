@@ -1,0 +1,33 @@
+# Web Framework & Server
+fastapi
+uvicorn[standard]
+python-multipart
+gunicorn
+
+# Database & ORM
+SQLAlchemy
+psycopg2-binary
+
+# Data Validation & Security
+pydantic[email]
+python-jose[cryptography]
+passlib[bcrypt]
+
+# Data Science & Machine Learning
+yfinance
+numpy
+pandas
+scikit-learn
+joblib
+
+# Time-Series Forecasting
+statsmodels
+prophet
+tensorflow
+tf-keras
+
+# For News Sentiment Analysis
+torch
+transformers
+newspaper3k
+lxml_html_clean
