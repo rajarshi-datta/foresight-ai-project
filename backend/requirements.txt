@@ -12,6 +12,7 @@ psycopg2-binary
 pydantic[email]
 python-jose[cryptography]
 passlib[bcrypt]
+fastapi-mail
 
 # Data Science & Machine Learning
 yfinance
@@ -31,3 +32,4 @@ torch
 transformers
 newspaper3k
 lxml_html_clean
+feedparser
